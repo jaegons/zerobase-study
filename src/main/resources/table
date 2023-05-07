@@ -1,0 +1,59 @@
+create table if not exists wifiapp.wifi
+(
+    id                  bigint auto_increment
+        primary key,
+    mgr_num             varchar(255)   null,
+    wifi_name           varchar(255)   null,
+    wrdofc              varchar(255)   null,
+    road_name_address   varchar(255)   null,
+    lot_number_address  varchar(255)   null,
+    installed_floor     varchar(255)   null,
+    installed_type      varchar(255)   null,
+    installed_mby       varchar(255)   null,
+    service_type        varchar(255)   null,
+    wifi_network_type   varchar(255)   null,
+    installed_year      varchar(255)   null,
+    inout_door          varchar(255)   null,
+    network_environment varchar(255)   null,
+    latitude            decimal(10, 7) null,
+    longitude           decimal(10, 7) null,
+    work_date_time      datetime       null,
+    constraint mgr_num
+        unique (mgr_num)
+);
+create table if not exists wifiapp.search_history
+(
+    id                 bigint auto_increment
+        primary key,
+    longitude          decimal(10, 7) not null,
+    latitude           decimal(10, 7) not null,
+    searched_date_time datetime       not null
+);
+create table if not exists wifiapp.bookmark
+(
+    id                bigint auto_increment
+        primary key,
+    order_num         int          null,
+    name              varchar(255) null,
+    created_date_time datetime     null,
+    last_modified     datetime     null
+);
+
+
+
+create table if not exists wifiapp.bookmark_wifi
+(
+    id                bigint auto_increment
+        primary key,
+    bookmark_id       bigint   not null,
+    wifi_id           bigint   not null,
+    created_date_time datetime not null,
+    constraint bookmark_wifi_bookmark_id_fk
+        foreign key (bookmark_id) references wifiapp.bookmark (id)
+            on update cascade on delete cascade,
+    constraint bookmark_wifi_wifi_id_fk
+        foreign key (wifi_id) references wifiapp.wifi (id)
+            on update cascade on delete cascade
+);
+
+
